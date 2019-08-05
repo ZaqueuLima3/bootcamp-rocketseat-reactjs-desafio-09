@@ -1,7 +1,27 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { Form, Input } from '@rocketseat/unform';
 
-// import { Container } from './styles';
+import logo from '~/assets/images/logo.svg';
 
 export default function SignUp() {
-  return <h1>SignUp</h1>;
+  return (
+    <>
+      <img src={logo} alt="logo meetapp" />
+      <Form onSubmit={() => {}}>
+        <Input name="name" placeholder="Nome completo" />
+
+        <Input name="email" type="email" placeholder="Digite seu e-mail" />
+
+        <Input
+          name="password"
+          type="password"
+          placeholder="Sua senha secreta"
+        />
+
+        <button type="submit">Criar conta</button>
+        <Link to="/">Já tenho login</Link>
+      </Form>
+    </>
+  );
 }
