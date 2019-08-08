@@ -1,8 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { meetupsRequest } from '~/store/modules/meetups/actions';
 
 import { Container, Header } from './styles';
 
 export default function Dashboard() {
+  const dispatch = useDispatch();
+  const meetups = useSelector(state => state.meetups.meetups);
+
+  useEffect(() => {
+    dispatch(meetupsRequest());
+  }, [dispatch]);
+
   return (
     <Container>
       <Header>
@@ -11,22 +21,12 @@ export default function Dashboard() {
       </Header>
 
       <ul>
-        <li>
-          <a href="/">Meetup de React Native</a>
-          <span>24 de julho, ás 20h</span>
-        </li>
-        <li>
-          <a href="/">Meetup de React Native</a>
-          <span>24 de julho, ás 20h</span>
-        </li>
-        <li>
-          <a href="/">Meetup de React Native</a>
-          <span>24 de julho, ás 20h</span>
-        </li>
-        <li>
-          <a href="/">Meetup de React Native</a>
-          <span>24 de julho, ás 20h</span>
-        </li>
+        {meetups.map(meetup => (
+          <li>
+            <a href="/">{meetup.title}</a>
+            <span>{meetup.dataFormatted}</span>
+          </li>
+        ))}
       </ul>
     </Container>
   );
