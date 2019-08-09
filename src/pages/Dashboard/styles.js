@@ -42,7 +42,7 @@ export const Header = styled.header`
     font-size: 32px;
   }
 
-  button {
+  a {
     background: #d44059;
     border: 0;
     border-radius: 4px;

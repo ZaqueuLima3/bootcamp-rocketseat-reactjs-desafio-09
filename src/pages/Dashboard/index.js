@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import { meetupsRequest } from '~/store/modules/meetups/actions';
 
@@ -17,13 +18,13 @@ export default function Dashboard() {
     <Container>
       <Header>
         <h1>Meus meetups</h1>
-        <button type="button">Novo meetup</button>
+        <Link to="meetup">Novo meetup</Link>
       </Header>
 
       <ul>
         {meetups.map(meetup => (
           <li>
-            <a href="/">{meetup.title}</a>
+            <Link to={meetup.url}>{meetup.title}</Link>
             <span>{meetup.dataFormatted}</span>
           </li>
         ))}
