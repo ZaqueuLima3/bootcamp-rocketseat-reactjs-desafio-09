@@ -1,9 +1,11 @@
 import { all, takeLatest, put, call } from 'redux-saga/effects';
 import { format, parseISO } from 'date-fns';
 import pt from 'date-fns/locale/pt';
+import { toast } from 'react-toastify';
 import api from '~/services/api';
+import history from '~/services/history';
 
-import { meetupsSuccess } from './actions';
+import { meetupsSuccess, newMeetupSuccess } from './actions';
 
 export function* meetups() {
   const response = yield call(api.get, 'meetups');
@@ -25,4 +27,22 @@ export function* meetups() {
   yield put(meetupsSuccess(data));
 }
 
-export default all([takeLatest('@meetup/LOAD_MEETUPS_REQUEST', meetups)]);
+export function* createMeetup({ payload }) {
+  try {
+    const { data } = payload;
+    const response = yield call(api.post, 'meetups', {
+      data,
+    });
+
+    yield put(newMeetupSuccess(response.data));
+
+    history.push('/');
+  } catch (err) {
+    toast.error('Erro ao cadastrar meetup, confira seus dados!');
+  }
+}
+
+export default all([
+  takeLatest('@meetup/LOAD_MEETUPS_REQUEST', meetups),
+  takeLatest('@meetup/NEW_MEETUP_REQUEST', createMeetup),
+]);

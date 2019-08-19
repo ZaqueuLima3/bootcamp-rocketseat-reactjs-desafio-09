@@ -35,6 +35,19 @@ export const Container = styled.div`
         color: rgba(255, 255, 255, 0.7);
       }
     }
+
+    button {
+      margin-top: 10px;
+      margin-left: auto;
+      width: 180px;
+      padding: 10px 0;
+      background: #d44059;
+      border: 0;
+      border-radius: 4px;
+      font-size: 16px;
+      font-weight: bold;
+      color: #fff;
+    }
   }
 `;
 

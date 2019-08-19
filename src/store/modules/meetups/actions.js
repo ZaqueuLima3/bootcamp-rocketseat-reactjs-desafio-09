@@ -10,3 +10,17 @@ export function meetupsSuccess(meetups) {
     payload: { meetups },
   };
 }
+
+export function newMeetupRequest(data) {
+  return {
+    type: '@meetup/NEW_MEETUP_REQUEST',
+    payload: { data },
+  };
+}
+
+export function newMeetupSuccess(meetup) {
+  return {
+    type: '@meetup/NEW_MEETUP_SUCCESS',
+    payload: { meetup },
+  };
+}
