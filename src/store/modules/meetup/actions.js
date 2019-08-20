@@ -17,10 +17,3 @@ export function newMeetupRequest(data) {
     payload: { data },
   };
 }
-
-export function newMeetupSuccess(meetup) {
-  return {
-    type: '@meetup/NEW_MEETUP_SUCCESS',
-    payload: { meetup },
-  };
-}

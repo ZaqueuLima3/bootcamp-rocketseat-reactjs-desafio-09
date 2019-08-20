@@ -4,6 +4,7 @@ import history from '~/services/history';
 import api from '~/services/api';
 
 import { signInSuccess } from './actions';
+import { meetupsRequest } from '../meetup/actions';
 
 export function* signIn({ payload }) {
   try {
@@ -18,6 +19,7 @@ export function* signIn({ payload }) {
 
     api.defaults.headers.Authorization = `Bearer ${token}`;
 
+    yield put(meetupsRequest());
     yield put(signInSuccess(token, user));
 
     history.push('/dashboard');

@@ -8,9 +8,8 @@ export const Container = styled.div`
     display: flex;
     flex-direction: column;
 
-    input {
-      height: 50px;
-      margin-bottom: 10px;
+    input,
+    textarea {
       border: 0;
       border-radius: 4px;
       padding: 0 15px;
@@ -22,18 +21,16 @@ export const Container = styled.div`
       }
     }
 
+    input {
+      height: 50px;
+      width: 100%;
+      margin-bottom: 10px;
+    }
+
     textarea {
       height: 100px;
       margin-bottom: 10px;
-      border: 0;
-      border-radius: 4px;
       padding: 10px 15px;
-      background: rgba(0, 0, 10, 0.2);
-      color: rgba(255, 255, 255, 0.7);
-
-      &::placeholder {
-        color: rgba(255, 255, 255, 0.7);
-      }
     }
 
     button {

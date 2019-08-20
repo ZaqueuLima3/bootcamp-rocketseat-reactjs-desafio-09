@@ -21,4 +21,5 @@ const persistor = persistStore(store);
 
 sagaMiddleware.run(rootSaga);
 
+console.tron.log(store.getState());
 export { store, persistor };

@@ -5,9 +5,9 @@ import { toast } from 'react-toastify';
 import api from '~/services/api';
 import history from '~/services/history';
 
-import { meetupsSuccess, newMeetupSuccess } from './actions';
+import { meetupsSuccess } from './actions';
 
-export function* meetups() {
+export function* loadMeetups() {
   const response = yield call(api.get, 'meetups');
 
   const data = response.data.map(meetup => {
@@ -30,19 +30,24 @@ export function* meetups() {
 export function* createMeetup({ payload }) {
   try {
     const { data } = payload;
-    const response = yield call(api.post, 'meetups', {
-      data,
+    const { title, description, date, location } = data;
+    yield call(api.post, 'meetups', {
+      title,
+      description,
+      date,
+      location,
+      image_id: 1,
     });
 
-    yield put(newMeetupSuccess(response.data));
-
+    toast.success('Meetup cadastrado com sucesso!');
     history.push('/');
   } catch (err) {
+    console.tron.log(err);
     toast.error('Erro ao cadastrar meetup, confira seus dados!');
   }
 }
 
 export default all([
-  takeLatest('@meetup/LOAD_MEETUPS_REQUEST', meetups),
+  takeLatest('@meetup/LOAD_MEETUPS_REQUEST', loadMeetups),
   takeLatest('@meetup/NEW_MEETUP_REQUEST', createMeetup),
 ]);

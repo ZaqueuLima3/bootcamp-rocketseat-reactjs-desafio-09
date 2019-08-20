@@ -1,18 +1,18 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Form, Input } from '@rocketseat/unform';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { newMeetupRequest } from '~/store/modules/meetups/actions';
+import { newMeetupRequest } from '~/store/modules/meetup/actions';
 
 import { Container, Image } from './styles';
 
-export default function Meetup() {
-  const dispatch = useDispatch();
-  // const { pathname } = data.location;
-  // console.tron.log(pathname);
+import DateInput from '~/components/DateInput';
 
-  function handleSubmit(data) {
-    dispatch(newMeetupRequest(data));
+export default function Meetup(props) {
+  const dispatch = useDispatch();
+
+  function handleSubmit(dataM) {
+    dispatch(newMeetupRequest(dataM));
   }
 
   return (
@@ -22,7 +22,7 @@ export default function Meetup() {
         <Input type="file" id="image" name="image" hidden />
         <Input name="title" placeholder="Titulo do meetup" />
         <Input multiline name="description" placeholder="Dercrição completa" />
-        <Input type="date" name="date" id="date" placeholder="Data do meetup" />
+        <DateInput name="date" placeholder="Data do meetup" />
         <Input name="location" placeholder="Localização" />
         <button type="submit">Salvar meetup</button>
       </Form>
