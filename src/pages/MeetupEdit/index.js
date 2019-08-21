@@ -12,16 +12,26 @@ import { Container, Image } from './styles';
 
 import DateInput from '~/components/DateInput';
 
-export default function Meetup() {
+export default function MeetupEdit(props) {
   const dispatch = useDispatch();
+  const params = new URLSearchParams(props.location.search);
+  console.log(params.get('id'));
 
-  function handleSubmit(data) {
-    dispatch(newMeetupRequest(data));
+  const { pathname } = props.location;
+
+  const meetup = useSelector(state => state.meetup.meetup);
+
+  useEffect(() => {
+    dispatch(getMeetupRequest(pathname));
+  }, [dispatch, pathname]);
+
+  function handleSubmit(dataM) {
+    dispatch(updateMeetupRequest(dataM));
   }
 
   return (
     <Container>
-      <Form onSubmit={handleSubmit}>
+      <Form initialData={meetup} onSubmit={handleSubmit}>
         <Image htmlFor="image">Selecionar Imagem</Image>
         <Input type="file" id="image" name="image" hidden />
         <Input name="title" placeholder="Titulo do meetup" />

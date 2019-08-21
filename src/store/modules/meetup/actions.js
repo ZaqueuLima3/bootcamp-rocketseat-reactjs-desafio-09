@@ -17,3 +17,25 @@ export function newMeetupRequest(data) {
     payload: { data },
   };
 }
+
+export function updateMeetupRequest() {}
+
+export function getMeetupRequest(pathname) {
+  return {
+    type: '@meetup/SET_MEETUP_REQUEST',
+    payload: { pathname },
+  };
+}
+
+export function getMeetupSuccess(meetup) {
+  return {
+    type: '@meetup/SET_MEETUP_SUCCESS',
+    payload: { meetup },
+  };
+}
+
+export function getMeetupFailure() {
+  return {
+    type: '@meetup/SET_MEETUP_FAILURE',
+  };
+}

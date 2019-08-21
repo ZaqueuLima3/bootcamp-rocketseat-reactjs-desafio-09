@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import api from '~/services/api';
 import history from '~/services/history';
 
-import { meetupsSuccess } from './actions';
+import { meetupsSuccess, getMeetupSuccess, getMeetupFailure } from './actions';
 
 export function* loadMeetups() {
   const response = yield call(api.get, 'meetups');
@@ -13,7 +13,7 @@ export function* loadMeetups() {
   const data = response.data.map(meetup => {
     return {
       ...meetup,
-      url: `meetup/${meetup.id}`,
+      url: `meetup/edit/${meetup.id}`,
       dataFormatted: format(
         parseISO(meetup.date),
         "'dia' dd 'de' MMMM', às' H:mm'h'",
@@ -25,6 +25,20 @@ export function* loadMeetups() {
   });
 
   yield put(meetupsSuccess(data));
+}
+
+export function* setMeetup({ payload }) {
+  const { pathname } = payload;
+  const [, , , id] = pathname.split('/');
+
+  if (!id) {
+    yield put(getMeetupFailure());
+    return;
+  }
+
+  const response = yield call(api.get, `meetups/${id}`);
+
+  yield put(getMeetupSuccess(response.data));
 }
 
 export function* createMeetup({ payload }) {
@@ -50,4 +64,5 @@ export function* createMeetup({ payload }) {
 export default all([
   takeLatest('@meetup/LOAD_MEETUPS_REQUEST', loadMeetups),
   takeLatest('@meetup/NEW_MEETUP_REQUEST', createMeetup),
+  takeLatest('@meetup/SET_MEETUP_REQUEST', setMeetup),
 ]);

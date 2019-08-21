@@ -16,7 +16,7 @@ export default function Dashboard() {
 
       <ul>
         {meetups.map(meetup => (
-          <li>
+          <li key={meetup.id}>
             <Link
               to={{
                 pathname: meetup.url,
