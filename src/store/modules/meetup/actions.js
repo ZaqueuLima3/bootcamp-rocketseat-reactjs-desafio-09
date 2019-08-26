@@ -20,10 +20,10 @@ export function newMeetupRequest(data) {
 
 export function updateMeetupRequest() {}
 
-export function getMeetupRequest(pathname) {
+export function getMeetupRequest(id) {
   return {
     type: '@meetup/SET_MEETUP_REQUEST',
-    payload: { pathname },
+    payload: { id },
   };
 }
 

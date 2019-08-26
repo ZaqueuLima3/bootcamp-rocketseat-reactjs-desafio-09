@@ -12,9 +12,11 @@ export default function meetup(state = INITIAL_STATE, action) {
         draft.meetups = action.payload.meetups;
         break;
       case '@meetup/SET_MEETUP_SUCCESS':
+        console.log('works');
         draft.meetup = action.payload.meetup;
         break;
       case '@meetup/SET_MEETUP_FAILURE':
+        console.log('not works');
         draft.meetup = null;
         break;
       case '@auth/SIGN_OUT':

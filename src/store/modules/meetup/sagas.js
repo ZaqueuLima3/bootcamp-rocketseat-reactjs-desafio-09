@@ -28,8 +28,7 @@ export function* loadMeetups() {
 }
 
 export function* setMeetup({ payload }) {
-  const { pathname } = payload;
-  const [, , , id] = pathname.split('/');
+  const { id } = payload;
 
   if (!id) {
     yield put(getMeetupFailure());
@@ -38,7 +37,11 @@ export function* setMeetup({ payload }) {
 
   const response = yield call(api.get, `meetups/${id}`);
 
-  yield put(getMeetupSuccess(response.data));
+  const data = {
+    title: response.data.title,
+  };
+
+  yield put(getMeetupSuccess(data));
 }
 
 export function* createMeetup({ payload }) {
