@@ -10,6 +10,7 @@ export default function auth(state = INITIAL_STATE, action) {
   return produce(state, draft => {
     switch (action.type) {
       case '@auth/SIGN_IN_REQUEST':
+      case '@auth/SIGN_UP_REQUEST':
         draft.loading = true;
         break;
 
@@ -20,6 +21,7 @@ export default function auth(state = INITIAL_STATE, action) {
         break;
 
       case '@auth/SIGN_IN_FAILURE':
+      case '@auth/SIGN_UP_SUCCESS':
         draft.loading = false;
         break;
 

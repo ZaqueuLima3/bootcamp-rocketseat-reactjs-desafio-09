@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 
 import { setMeetupClearRequest } from '~/store/modules/meetup/actions';
 
+import Spinner from '~/components/Spinner';
+
 import { Container, Content, Image } from './styles';
 
 export default function MeetupOpen() {
@@ -19,7 +21,7 @@ export default function MeetupOpen() {
   return (
     <Container>
       {loading ? (
-        <h2>carregando...</h2>
+        <Spinner loading={loading} color="#FFF" size={40} />
       ) : (
         <>
           <header>

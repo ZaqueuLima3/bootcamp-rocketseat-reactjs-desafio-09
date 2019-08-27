@@ -2,6 +2,8 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
+import Spinner from '~/components/Spinner';
+
 import { Container, Header } from './styles';
 
 import {
@@ -26,7 +28,7 @@ export default function Dashboard() {
   return (
     <Container>
       {loading ? (
-        <h2>carregando...</h2>
+        <Spinner loading={loading} color="#FFF" size={40} />
       ) : (
         <>
           <Header>

@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import history from '~/services/history';
 import api from '~/services/api';
 
-import { signInSuccess } from './actions';
+import { signInSuccess, signUpSuccess } from './actions';
 import { meetupsRequest } from '../meetup/actions';
 
 export function* signIn({ payload }) {
@@ -34,6 +34,7 @@ export function* signUp({ payload }) {
       ...payload,
     });
 
+    yield put(signUpSuccess());
     history.push('/');
   } catch (err) {
     toast.error('Falha no cadastro, verifique seus dados!');
