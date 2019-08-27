@@ -18,24 +18,35 @@ export function newMeetupRequest(data) {
   };
 }
 
-export function updateMeetupRequest() {}
+export function updateMeetupRequest(data) {
+  return {
+    type: '@meetup/UPDATE_MEETUP_REQUEST',
+    payload: { data },
+  };
+}
 
-export function getMeetupRequest(id) {
+export function setMeetupRequest(id) {
   return {
     type: '@meetup/SET_MEETUP_REQUEST',
     payload: { id },
   };
 }
 
-export function getMeetupSuccess(meetup) {
+export function setMeetupSuccess(meetup) {
   return {
     type: '@meetup/SET_MEETUP_SUCCESS',
     payload: { meetup },
   };
 }
 
-export function getMeetupFailure() {
+export function setMeetupClearRequest() {
   return {
-    type: '@meetup/SET_MEETUP_FAILURE',
+    type: '@meetup/SET_MEETUP_CLEAR_REQUEST',
+  };
+}
+
+export function setMeetupClearSuccess() {
+  return {
+    type: '@meetup/SET_MEETUP_CLEAR_SUCCESS',
   };
 }

@@ -4,34 +4,53 @@ import { Link } from 'react-router-dom';
 
 import { Container, Header } from './styles';
 
-import { getMeetupRequest } from '~/store/modules/meetup/actions';
+import {
+  setMeetupRequest,
+  setMeetupClearRequest,
+} from '~/store/modules/meetup/actions';
 
 export default function Dashboard() {
   const dispatch = useDispatch();
 
   const meetups = useSelector(state => state.meetup.meetups);
+  const loading = useSelector(state => state.meetup.loading);
 
-  async function handleSetMeetup(id) {
-    console.log('dash');
+  function handleSetMeetup(id) {
+    dispatch(setMeetupRequest(id));
+  }
+
+  function handleClearMeetup() {
+    dispatch(setMeetupClearRequest());
   }
 
   return (
     <Container>
-      <Header>
-        <h1>Meus meetups</h1>
-        <Link to="meetup">Novo meetup</Link>
-      </Header>
-
-      <ul>
-        {meetups.map(meetup => (
-          <li key={meetup.id}>
-            <Link to={meetup.url} onClick={() => handleSetMeetup(meetup.id)}>
-              {meetup.title}
+      {loading ? (
+        <h2>carregando...</h2>
+      ) : (
+        <>
+          <Header>
+            <h1>Meus meetups</h1>
+            <Link to="meetup" onClick={handleClearMeetup}>
+              Novo meetup
             </Link>
-            <span>{meetup.dataFormatted}</span>
-          </li>
-        ))}
-      </ul>
+          </Header>
+
+          <ul>
+            {meetups.map(meetup => (
+              <li key={meetup.id}>
+                <Link
+                  to={meetup.url}
+                  onClick={() => handleSetMeetup(meetup.id)}
+                >
+                  {meetup.title}
+                </Link>
+                <span>{meetup.dataFormatted}</span>
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
     </Container>
   );
 }

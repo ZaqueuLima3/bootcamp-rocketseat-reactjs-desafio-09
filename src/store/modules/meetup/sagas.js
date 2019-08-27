@@ -5,7 +5,17 @@ import { toast } from 'react-toastify';
 import api from '~/services/api';
 import history from '~/services/history';
 
-import { meetupsSuccess, getMeetupSuccess, getMeetupFailure } from './actions';
+import {
+  meetupsSuccess,
+  meetupsRequest,
+  setMeetupRequest,
+  setMeetupSuccess,
+  setMeetupClearSuccess,
+} from './actions';
+
+export function* clearMeetup() {
+  yield put(setMeetupClearSuccess());
+}
 
 export function* loadMeetups() {
   const response = yield call(api.get, 'meetups');
@@ -13,10 +23,10 @@ export function* loadMeetups() {
   const data = response.data.map(meetup => {
     return {
       ...meetup,
-      url: `meetup/edit/${meetup.id}`,
+      url: `meetup/open`,
       dataFormatted: format(
         parseISO(meetup.date),
-        "'dia' dd 'de' MMMM', às' H:mm'h'",
+        "dd 'de' MMMM', às' H:mm'h'",
         {
           locale: pt,
         }
@@ -31,30 +41,50 @@ export function* setMeetup({ payload }) {
   const { id } = payload;
 
   if (!id) {
-    yield put(getMeetupFailure());
+    clearMeetup();
     return;
   }
 
   const response = yield call(api.get, `meetups/${id}`);
 
   const data = {
-    title: response.data.title,
+    ...response.data,
+    date: format(parseISO(response.data.date), "YYY'-'MM'-'dd'T'HH:mm'Z'", {
+      locale: pt,
+    }),
+    dataFormatted: format(
+      parseISO(response.data.date),
+      "dd 'de' MMMM', às' H:mm'h'",
+      {
+        locale: pt,
+      }
+    ),
   };
 
-  yield put(getMeetupSuccess(data));
+  yield put(setMeetupSuccess(data));
+}
+
+export function* updateMeetup({ payload }) {
+  try {
+    const { data } = payload;
+    yield call(api.put, `meetups/${data.id}`, data);
+
+    yield put(meetupsRequest());
+    yield put(setMeetupRequest(data.id));
+
+    toast.success('Meetup atualizado com sucesso!');
+    history.push('/meetup/open/1');
+  } catch (err) {
+    toast.error('Erro ao atualizar meetup, confira seus dados!');
+  }
 }
 
 export function* createMeetup({ payload }) {
   try {
     const { data } = payload;
-    const { title, description, date, location } = data;
-    yield call(api.post, 'meetups', {
-      title,
-      description,
-      date,
-      location,
-      image_id: 1,
-    });
+    yield call(api.post, 'meetups', data);
+
+    yield put(meetupsRequest());
 
     toast.success('Meetup cadastrado com sucesso!');
     history.push('/');
@@ -67,5 +97,7 @@ export function* createMeetup({ payload }) {
 export default all([
   takeLatest('@meetup/LOAD_MEETUPS_REQUEST', loadMeetups),
   takeLatest('@meetup/NEW_MEETUP_REQUEST', createMeetup),
+  takeLatest('@meetup/UPDATE_MEETUP_REQUEST', updateMeetup),
   takeLatest('@meetup/SET_MEETUP_REQUEST', setMeetup),
+  takeLatest('@meetup/SET_MEETUP_CLEAR_REQUEST', clearMeetup),
 ]);
